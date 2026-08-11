@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acervo Genealógico</title>
+
+<style>
+body {
+    font-family: Georgia, serif;
+    background: #f4f1ea;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.person-link {
+    color: #8b4513;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.person-link:hover {
+    color: #5d2f0c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 10px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.family-member {
+    color: #0066cc;
+    cursor: pointer;
+    text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Acervo Histórico e Genealógico</h1>
+
+<h2>Pessoas Cadastradas</h2>
+
+<ul>
+    <li>
+        <span class="person-link"
+              onclick="openProfile('pietro')">
+              Pietro Mardegan
+        </span>
+    </li>
+
+    <li>
+        <span class="person-link"
+              onclick="openProfile('feliciano')">
+              Feliciano Veronez
+        </span>
+    </li>
+</ul>
+
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+
+        <span class="close" onclick="closeProfile()">&times;</span>
+
+        <div id="profileContent"></div>
+
+    </div>
+</div>
+
+<script>
+
+const profiles = {
+
+    pietro: {
+        nome: "Pietro Mardegan",
+        nascimento: "A definir",
+        localNascimento: "Itália",
+        falecimento: "10 de junho de 1917",
+        localFalecimento: "Princesa, Rio Novo do Sul - ES",
+        chegadaBrasil: "25 de dezembro de 1879",
+        esposa: "Cândida Zanellato",
+        filhos: [
+            "Giuseppe Mardegan",
+            "Valentina Mardegan"
+        ],
+        biografia:
+        "Imigrante italiano que chegou ao Brasil em 25 de dezembro de 1879. Já era casado com Cândida Zanellato e veio acompanhado dos filhos Giuseppe e Valentina. Estabeleceu-se na região de Princesa, atual distrito do município de Rio Novo do Sul, Espírito Santo."
+    },
+
+    feliciano: {
+        nome: "Feliciano Veronez",
+        nascimento: "",
+        localNascimento: "Itália",
+        falecimento: "",
+        localFalecimento: "",
+        chegadaBrasil: "8 de março de 1878",
+        esposa: "",
+        filhos: [],
+        biografia:
+        "Imigrante italiano que desembarcou no Espírito Santo em 8 de março de 1878."
+    }
+
+};
+
+function openProfile(id) {
+
+    const p = profiles[id];
+
+    document.getElementById("profileContent").innerHTML = `
+
+        <h2>${p.nome}</h2>
+
+        <div class="section">
+            <h3>Dados Pessoais</h3>
+            <p><strong>Nascimento:</strong> ${p.nascimento}</p>
+            <p><strong>Local:</strong> ${p.localNascimento}</p>
+            <p><strong>Falecimento:</strong> ${p.falecimento}</p>
+            <p><strong>Local:</strong> ${p.localFalecimento}</p>
+        </div>
+
+        <div class="section">
+            <h3>Imigração</h3>
+            <p><strong>Chegada ao Brasil:</strong> ${p.chegadaBrasil}</p>
+        </div>
+
+        <div class="section">
+            <h3>Família</h3>
+            <p><strong>Cônjuge:</strong> ${p.esposa}</p>
+            <p><strong>Filhos:</strong></p>
+            <ul>
+                ${p.filhos.map(f => `<li>${f}</li>`).join("")}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Biografia</h3>
+            <p>${p.biografia}</p>
+        </div>
+
+        <div class="section">
+            <h3>Recursos</h3>
+            <button onclick="alert('Abrir Árvore Familiar')">
+                Ver Árvore Familiar
+            </button>
+
+            <button onclick="alert('Abrir Documentos')">
+                Documentos
+            </button>
+
+            <button onclick="alert('Abrir Linha do Tempo')">
+                Linha do Tempo
+            </button>
+        </div>
+
+    `;
+
+    document.getElementById("profileModal").style.display = "block";
+}
+
+function closeProfile() {
+    document.getElementById("profileModal").style.display = "none";
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById("profileModal");
+
+    if(event.target === modal){
+        closeProfile();
+    }
+};
+
+</script>
+
+</body>
+</html>
