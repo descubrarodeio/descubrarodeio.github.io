@@ -346,24 +346,19 @@
         </div>
     </main>
 
-    <!-- Seção de Colaboração -->
-    <section class="colabore-section">
+   <!-- Seção de Colaboração Integrada ao Formspree -->
+    <section class="colabore-section" id="colabore">
         <div class="colabore-container">
-            <h2>Ajude a construir o "Descubra Rodeio"</h2>
-            <p>Você tem alguma foto antiga da cidade, receita de família ou uma história que seu avô contava? Compartilhe conosco para mantermos viva a nossa memória!</p>
-            <form>
-                <input type="text" placeholder="Seu Nome" required>
-                <input type="email" placeholder="Seu E-mail" required>
-                <textarea rows="5" placeholder="Conte aqui a sua história ou nos diga qual registro histórico você gostaria de compartilhar..." required></textarea>
-                <button type="submit">Enviar para o Projeto</button>
+            <h2>Possui documentos ou fotos da família?</h2>
+            <p>Ajude-nos a enriquecer o acervo. Envie registros, certidões ou fotografias antigas.</p>
+            
+            <form action="https://formspree.io/f/xvkpaydn" method="POST">
+                <input type="text" name="name" placeholder="Seu Nome" required>
+                <input type="email" name="email" placeholder="Seu E-mail" required>
+                <textarea name="message" rows="4" placeholder="Descreva os documentos ou histórias que gostaria de compartilhar..." required></textarea>
+                <button type="submit">Enviar Informações</button>
             </form>
         </div>
     </section>
-
-    <!-- Rodapé -->
-    <footer>
-        <p>&copy; 2026 Descubra Rodeio. Projeto de resgate e preservação da identidade rodeense.</p>
-    </footer>
-
 </body>
 </html>
