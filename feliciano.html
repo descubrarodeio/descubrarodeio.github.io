@@ -443,9 +443,9 @@
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 Digite o nome de um familiar ou imigrante..." onkeyup="filterNames()">
         </div>
 
-        <!-- Grid de Cartões -->
+        <!-- Grid de Cartões (Apenas os chefes de família expostos) -->
         <div class="grid" id="peopleGrid">
-            <!-- Gerado dinamicamente via JavaScript -->
+            <!-- Gerado via JavaScript -->
         </div>
     </main>
 
@@ -588,28 +588,33 @@
             }
         };
 
-        // Renderiza as pessoas na grid inicial do site
+        // Renderiza apenas as pessoas principais na tela inicial
         function renderGrid() {
             const grid = document.getElementById("peopleGrid");
             grid.innerHTML = "";
 
-            Object.keys(profiles).forEach(key => {
+            // Apenas os perfis de Pietro e Feliciano entram na tela principal
+            const mainProfiles = ['pietro', 'feliciano'];
+
+            mainProfiles.forEach(key => {
                 const p = profiles[key];
-                grid.innerHTML += `
-                    <div class="card person-card" data-name="${p.nome.toLowerCase()}">
-                        <div class="card-content">
-                            <span class="card-tag">${p.nacionalidade || 'Registro Histórico'}</span>
-                            <h3>${p.nome}</h3>
-                            <p><strong>Chegada ao Brasil:</strong> ${p.imigracao.chegadaBrasil || 'Não informada'}<br>
-                            <strong>Local:</strong> ${p.localFalecimento || p.imigracao.destinoInicial || 'Não informado'}</p>
-                            <button class="btn-card" onclick="openProfile('${p.id}')">Ver Ficha Biográfica →</button>
+                if (p) {
+                    grid.innerHTML += `
+                        <div class="card person-card" data-name="${p.nome.toLowerCase()}">
+                            <div class="card-content">
+                                <span class="card-tag">${p.nacionalidade || 'Registro Histórico'}</span>
+                                <h3>${p.nome}</h3>
+                                <p><strong>Chegada ao Brasil:</strong> ${p.imigracao.chegadaBrasil || 'Não informada'}<br>
+                                <strong>Local:</strong> ${p.localFalecimento || p.imigracao.destinoInicial || 'Não informado'}</p>
+                                <button class="btn-card" onclick="openProfile('${p.id}')">Ver Ficha Biográfica →</button>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
             });
         }
 
-        // Formata link de parentes
+        // Formata link de parentes para torná-los clicáveis
         function formatRelation(person) {
             if (!person || !person.nome) return 'Não informado';
             if (person.id && profiles[person.id]) {
@@ -618,7 +623,7 @@
             return person.nome;
         }
 
-        // Abre a Ficha Biográfica
+        // Abre a Ficha Biográfica em formato Modal
         function openProfile(id) {
             const p = profiles[id];
             if (!p) return;
@@ -717,7 +722,7 @@
             document.getElementById("profileModal").style.display = "none";
         }
 
-        // Busca em tempo real por nome
+        // Busca em tempo real por nome nos cartões expostos
         function filterNames() {
             const query = document.getElementById("searchInput").value.toLowerCase();
             const cards = document.querySelectorAll(".person-card");
@@ -736,7 +741,7 @@
             }
         };
 
-        // Inicialização
+        // Inicialização do grid inicial
         renderGrid();
     </script>
 
