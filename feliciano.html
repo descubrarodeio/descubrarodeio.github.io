@@ -443,7 +443,7 @@
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 Digite o nome de um familiar ou imigrante..." onkeyup="filterNames()">
         </div>
 
-        <!-- Grid de Cartões (Apenas os chefes de família expostos) -->
+        <!-- Grid de Cartões -->
         <div class="grid" id="peopleGrid">
             <!-- Gerado via JavaScript -->
         </div>
@@ -585,16 +585,100 @@
                 biografia: "Imigrante italiano que desembarcou no Espírito Santo em 8 de março de 1878.",
                 documentos: ["Lista de Passageiros (1878)"],
                 galeria: []
+            },
+
+            grolla: {
+                id: "grolla",
+                nome: "Francesco Grolla",
+                nascimento: "A definir",
+                localNascimento: "Itália",
+                falecimento: "A definir",
+                localFalecimento: "Espírito Santo",
+                nacionalidade: "Italiana",
+
+                pai: { nome: "A definir", id: "" },
+                mae: { nome: "A definir", id: "" },
+                conjuge: { nome: "A definir", dataCasamento: "", localCasamento: "", id: "" },
+                filhos: [],
+
+                imigracao: {
+                    chegadaBrasil: "A definir",
+                    navio: "A definir",
+                    portoDesembarque: "Vitória - ES",
+                    destinoInicial: "Espírito Santo",
+                    observacoes: "Registro de imigração em fase de apuração documental."
+                },
+
+                servicoMilitar: { unidade: "", periodo: "", detalhes: "" },
+                biografia: "Imigrante italiano e patriarca da família Grolla estabelecido no Estado do Espírito Santo.",
+                documentos: [],
+                galeria: []
+            },
+
+            sangiorgio: {
+                id: "sangiorgio",
+                nome: "Luigi Sangiorgio",
+                nascimento: "A definir",
+                localNascimento: "Itália",
+                falecimento: "A definir",
+                localFalecimento: "Espírito Santo",
+                nacionalidade: "Italiana",
+
+                pai: { nome: "A definir", id: "" },
+                mae: { nome: "A definir", id: "" },
+                conjuge: { nome: "A definir", dataCasamento: "", localCasamento: "", id: "" },
+                filhos: [],
+
+                imigracao: {
+                    chegadaBrasil: "A definir",
+                    navio: "A definir",
+                    portoDesembarque: "Vitória - ES",
+                    destinoInicial: "Espírito Santo",
+                    observacoes: "Registro histórico em processo de pesquisa genealógica."
+                },
+
+                servicoMilitar: { unidade: "", periodo: "", detalhes: "" },
+                biografia: "Imigrante italiano e membro pioneiro da família Sangiorgio no Espírito Santo.",
+                documentos: [],
+                galeria: []
+            },
+
+            biasatti: {
+                id: "biasatti",
+                nome: "Luigi Biasatti",
+                nascimento: "A definir",
+                localNascimento: "Itália",
+                falecimento: "A definir",
+                localFalecimento: "Espírito Santo",
+                nacionalidade: "Italiana",
+
+                pai: { nome: "A definir", id: "" },
+                mae: { nome: "A definir", id: "" },
+                conjuge: { nome: "A definir", dataCasamento: "", localCasamento: "", id: "" },
+                filhos: [],
+
+                imigracao: {
+                    chegadaBrasil: "A definir",
+                    navio: "A definir",
+                    portoDesembarque: "Vitória - ES",
+                    destinoInicial: "Espírito Santo",
+                    observacoes: "Pioneiro registrado na imigração italiana para o estado do Espírito Santo."
+                },
+
+                servicoMilitar: { unidade: "", periodo: "", detalhes: "" },
+                biografia: "Imigrante italiano da família Biasatti registrado nos acervos de imigração do Espírito Santo.",
+                documentos: [],
+                galeria: []
             }
         };
 
-        // Renderiza apenas as pessoas principais na tela inicial
+        // Renderiza apenas os cartões principais na tela
         function renderGrid() {
             const grid = document.getElementById("peopleGrid");
             grid.innerHTML = "";
 
-            // Apenas os perfis de Pietro e Feliciano entram na tela principal
-            const mainProfiles = ['pietro', 'feliciano'];
+            // Lista das pessoas que aparecem expostas na página inicial
+            const mainProfiles = ['pietro', 'feliciano', 'grolla', 'sangiorgio', 'biasatti'];
 
             mainProfiles.forEach(key => {
                 const p = profiles[key];
