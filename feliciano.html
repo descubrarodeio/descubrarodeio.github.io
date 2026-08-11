@@ -1,210 +1,744 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acervo Genealógico</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo Histórico e Genealógico</title>
+    <style>
+        /* Reset e Estilos Gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<style>
-body {
-    font-family: Georgia, serif;
-    background: #f4f1ea;
-    margin: 0;
-    padding: 20px;
-}
+        body {
+            background-color: #f7f9f6;
+            color: #2c3e2b;
+            line-height: 1.6;
+        }
 
-h1 {
-    text-align: center;
-}
+        /* Cabeçalho e Menu */
+        header {
+            background-color: #2a472a;
+            color: #fff;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
 
-.person-link {
-    color: #8b4513;
-    cursor: pointer;
-    font-weight: bold;
-    text-decoration: underline;
-}
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-.person-link:hover {
-    color: #5d2f0c;
-}
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-}
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
 
-.modal-content {
-    background: white;
-    width: 90%;
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 25px;
-    border-radius: 10px;
-    max-height: 85vh;
-    overflow-y: auto;
-}
+        nav ul li {
+            margin-left: 2rem;
+        }
 
-.close {
-    float: right;
-    font-size: 28px;
-    cursor: pointer;
-}
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
 
-.section {
-    margin-bottom: 20px;
-}
+        nav ul li a:hover {
+            color: #e2c17d;
+        }
 
-.section h3 {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
-}
+        /* Banner Principal (Hero) */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 0 1rem;
+        }
 
-.family-member {
-    color: #0066cc;
-    cursor: pointer;
-    text-decoration: underline;
-}
-</style>
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+        }
+
+        /* Seção Principal de Conteúdo */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: #2a472a;
+            font-size: 2.2rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Campo de Busca */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            font-size: 1rem;
+            border: 2px solid #d4c8b8;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s;
+            background-color: #fff;
+        }
+
+        .search-input:focus {
+            border-color: #2a472a;
+        }
+
+        /* Grid de Cartões */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eef2ed;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-content {
+            padding: 1.8rem;
+        }
+
+        .card-tag {
+            background-color: #e8ede7;
+            color: #2a472a;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+        }
+
+        .card h3 {
+            margin-bottom: 0.7rem;
+            color: #2a472a;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-card {
+            background-color: #e2c17d;
+            color: #1e331e;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        .btn-card:hover {
+            background-color: #2a472a;
+            color: #fff;
+        }
+
+        /* Modal da Ficha Biográfica Interativa */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 92%;
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 8px;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2a472a;
+            cursor: pointer;
+        }
+
+        .profile-title {
+            color: #2a472a;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2c17d;
+        }
+
+        .section {
+            margin-bottom: 1.8rem;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            color: #2a472a;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 4px;
+        }
+
+        .section p {
+            margin-bottom: 5px;
+            color: #444;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            color: #444;
+        }
+
+        .biography-text {
+            text-align: justify;
+            background: #f7f9f6;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #2a472a;
+        }
+
+        .clickable-person {
+            color: #b08c42;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .clickable-person:hover {
+            color: #2a472a;
+        }
+
+        /* Galeria de Fotos no Modal */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        /* Botões de Ação na Ficha */
+        .actions-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .btn-action {
+            background-color: #2a472a;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-action:hover {
+            background-color: #e2c17d;
+            color: #1e331e;
+        }
+
+        .btn-close-bottom {
+            background-color: #666;
+        }
+
+        .btn-close-bottom:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Seção Colabore */
+        .colabore-section {
+            background-color: #2a472a;
+            color: #fff;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .colabore-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .colabore-container h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .colabore-container p {
+            margin-bottom: 2rem;
+            color: #cedbc8;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input, textarea {
+            padding: 0.9rem;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        button[type="submit"] {
+            background-color: #e2c17d;
+            color: #1e331e;
+            border: none;
+            padding: 1rem;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #fff;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #192b19;
+            color: #9cb09a;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            nav ul li {
+                margin: 0 1rem;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<h1>Acervo Histórico e Genealógico</h1>
+    <!-- Menu de Navegação -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">📜 Acervo Genealógico</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#acervo">Pessoas</a></li>
+                    <li><a href="#colabore">Colabore</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<h2>Pessoas Cadastradas</h2>
+    <!-- Banner Principal -->
+    <section class="hero">
+        <h1>Acervo Histórico e Genealógico</h1>
+        <p>Preservando memórias, registros de imigração e laços de família através das gerações.</p>
+    </section>
 
-<ul>
-    <li>
-        <span class="person-link"
-              onclick="openProfile('pietro')">
-              Pietro Mardegan
-        </span>
-    </li>
+    <!-- Conteúdo Principal -->
+    <main class="container" id="acervo">
+        <h2 class="section-title">Pessoas Cadastradas</h2>
+        <p class="section-subtitle">Clique em uma pessoa para abrir sua ficha biográfica completa.</p>
 
-    <li>
-        <span class="person-link"
-              onclick="openProfile('feliciano')">
-              Feliciano Veronez
-        </span>
-    </li>
-</ul>
+        <!-- Campo de Busca -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Digite o nome de um familiar ou imigrante..." onkeyup="filterNames()">
+        </div>
 
-<div id="profileModal" class="modal">
-    <div class="modal-content">
+        <!-- Grid de Cartões -->
+        <div class="grid" id="peopleGrid">
+            <!-- Gerado via JavaScript -->
+        </div>
+    </main>
 
-        <span class="close" onclick="closeProfile()">&times;</span>
+    <!-- Seção de Colaboração -->
+    <section class="colabore-section" id="colabore">
+        <div class="colabore-container">
+            <h2>Possui documentos ou fotos da família?</h2>
+            <p>Ajude-nos a enriquecer o acervo. Envie registros, certidões ou fotografias antigas.</p>
+            <form onsubmit="event.preventDefault(); alert('Obrigado pelo envio! Analisaremos o registro em breve.');">
+                <input type="text" placeholder="Seu Nome" required>
+                <input type="email" placeholder="Seu E-mail" required>
+                <textarea rows="4" placeholder="Descreva os documentos ou histórias que gostaria de compartilhar..." required></textarea>
+                <button type="submit">Enviar Informações</button>
+            </form>
+        </div>
+    </section>
 
-        <div id="profileContent"></div>
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 Acervo Histórico e Genealógico. Todos os direitos reservados.</p>
+    </footer>
 
+    <!-- Janela Modal (Ficha Biográfica Interativa) -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeProfile()">&times;</span>
+            <div id="profileContent"></div>
+        </div>
     </div>
-</div>
 
-<script>
+    <!-- Script com Banco de Dados e Lógica Interativa -->
+    <script>
+        const profiles = {
+            pietro: {
+                id: "pietro",
+                nome: "Pietro Mardegan",
+                nascimento: "A definir",
+                localNascimento: "Itália",
+                falecimento: "10 de junho de 1917",
+                localFalecimento: "Princesa, Rio Novo do Sul - ES",
+                nacionalidade: "Italiana",
+                
+                pai: { nome: "A definir", id: "" },
+                mae: { nome: "A definir", id: "" },
 
-const profiles = {
+                conjuge: {
+                    nome: "Cândida Zanellato",
+                    dataCasamento: "A definir",
+                    localCasamento: "Itália",
+                    id: "candida"
+                },
 
-    pietro: {
-        nome: "Pietro Mardegan",
-        nascimento: "A definir",
-        localNascimento: "Itália",
-        falecimento: "10 de junho de 1917",
-        localFalecimento: "Princesa, Rio Novo do Sul - ES",
-        chegadaBrasil: "25 de dezembro de 1879",
-        esposa: "Cândida Zanellato",
-        filhos: [
-            "Giuseppe Mardegan",
-            "Valentina Mardegan"
-        ],
-        biografia:
-        "Imigrante italiano que chegou ao Brasil em 25 de dezembro de 1879. Já era casado com Cândida Zanellato e veio acompanhado dos filhos Giuseppe e Valentina. Estabeleceu-se na região de Princesa, atual distrito do município de Rio Novo do Sul, Espírito Santo."
-    },
+                filhos: [
+                    { nome: "Giuseppe Mardegan", id: "giuseppe" },
+                    { nome: "Valentina Mardegan", id: "valentina" }
+                ],
 
-    feliciano: {
-        nome: "Feliciano Veronez",
-        nascimento: "",
-        localNascimento: "Itália",
-        falecimento: "",
-        localFalecimento: "",
-        chegadaBrasil: "8 de março de 1878",
-        esposa: "",
-        filhos: [],
-        biografia:
-        "Imigrante italiano que desembarcou no Espírito Santo em 8 de março de 1878."
-    }
+                imigracao: {
+                    chegadaBrasil: "25 de dezembro de 1879",
+                    navio: "Não informado",
+                    portoDesembarque: "Vitória - ES",
+                    destinoInicial: "Princesa, Rio Novo do Sul - ES",
+                    observacoes: "Veio acompanhado da esposa e dos dois filhos."
+                },
 
-};
+                servicoMilitar: {
+                    unidade: "Não informado",
+                    periodo: "Não informado",
+                    detalhes: "Sem registros de serviço militar no Brasil."
+                },
 
-function openProfile(id) {
+                biografia: "Imigrante italiano que chegou ao Brasil em 25 de dezembro de 1879. Já era casado com Cândida Zanellato e veio acompanhado dos filhos Giuseppe e Valentina. Estabeleceu-se na região de Princesa, atual distrito do município de Rio Novo do Sul, Espírito Santo.",
 
-    const p = profiles[id];
+                documentos: [
+                    "Certidão de Óbito (1917)",
+                    "Registro de Entrada de Imigrantes (1879)"
+                ],
 
-    document.getElementById("profileContent").innerHTML = `
+                galeria: [
+                    "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=300&q=80",
+                    "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=300&q=80"
+                ]
+            },
 
-        <h2>${p.nome}</h2>
+            giuseppe: {
+                id: "giuseppe",
+                nome: "Giuseppe Mardegan",
+                nascimento: "A definir",
+                localNascimento: "Itália",
+                falecimento: "A definir",
+                localFalecimento: "Espírito Santo",
+                nacionalidade: "Italiana (Naturalizado Brasileiro)",
 
-        <div class="section">
-            <h3>Dados Pessoais</h3>
-            <p><strong>Nascimento:</strong> ${p.nascimento}</p>
-            <p><strong>Local:</strong> ${p.localNascimento}</p>
-            <p><strong>Falecimento:</strong> ${p.falecimento}</p>
-            <p><strong>Local:</strong> ${p.localFalecimento}</p>
-        </div>
+                pai: { nome: "Pietro Mardegan", id: "pietro" },
+                mae: { nome: "Cândida Zanellato", id: "candida" },
 
-        <div class="section">
-            <h3>Imigração</h3>
-            <p><strong>Chegada ao Brasil:</strong> ${p.chegadaBrasil}</p>
-        </div>
+                conjuge: { nome: "Não informado", dataCasamento: "", localCasamento: "", id: "" },
+                filhos: [],
 
-        <div class="section">
-            <h3>Família</h3>
-            <p><strong>Cônjuge:</strong> ${p.esposa}</p>
-            <p><strong>Filhos:</strong></p>
-            <ul>
-                ${p.filhos.map(f => `<li>${f}</li>`).join("")}
-            </ul>
-        </div>
+                imigracao: {
+                    chegadaBrasil: "25 de dezembro de 1879",
+                    navio: "Não informado",
+                    portoDesembarque: "Vitória - ES",
+                    destinoInicial: "Princesa, Rio Novo do Sul - ES",
+                    observacoes: "Chegou ainda criança acompanhando os pais."
+                },
 
-        <div class="section">
-            <h3>Biografia</h3>
-            <p>${p.biografia}</p>
-        </div>
+                servicoMilitar: { unidade: "", periodo: "", detalhes: "" },
+                biografia: "Filho de Pietro Mardegan e Cândida Zanellato. Chegou ao Brasil em 1879 e ajudou a família no estabelecimento da propriedade rural em Rio Novo do Sul.",
+                documentos: ["Registro de Entrada de Imigrantes (1879)"],
+                galeria: []
+            },
 
-        <div class="section">
-            <h3>Recursos</h3>
-            <button onclick="alert('Abrir Árvore Familiar')">
-                Ver Árvore Familiar
-            </button>
+            feliciano: {
+                id: "feliciano",
+                nome: "Feliciano Veronez",
+                nascimento: "A definir",
+                localNascimento: "Itália",
+                falecimento: "A definir",
+                localFalecimento: "Espírito Santo",
+                nacionalidade: "Italiana",
 
-            <button onclick="alert('Abrir Documentos')">
-                Documentos
-            </button>
+                pai: { nome: "A definir", id: "" },
+                mae: { nome: "A definir", id: "" },
+                conjuge: { nome: "A definir", dataCasamento: "", localCasamento: "", id: "" },
+                filhos: [],
 
-            <button onclick="alert('Abrir Linha do Tempo')">
-                Linha do Tempo
-            </button>
-        </div>
+                imigracao: {
+                    chegadaBrasil: "8 de março de 1878",
+                    navio: "A definir",
+                    portoDesembarque: "Vitória - ES",
+                    destinoInicial: "Espírito Santo",
+                    observacoes: "Desembarcou no ES na grande onda migratória do final do século XIX."
+                },
 
-    `;
+                servicoMilitar: { unidade: "", periodo: "", detalhes: "" },
+                biografia: "Imigrante italiano que desembarcou no Espírito Santo em 8 de março de 1878.",
+                documentos: ["Lista de Passageiros (1878)"],
+                galeria: []
+            }
+        };
 
-    document.getElementById("profileModal").style.display = "block";
-}
+        // Renderiza as pessoas na grid inicial do site
+        function renderGrid() {
+            const grid = document.getElementById("peopleGrid");
+            grid.innerHTML = "";
 
-function closeProfile() {
-    document.getElementById("profileModal").style.display = "none";
-}
+            Object.keys(profiles).forEach(key => {
+                const p = profiles[key];
+                grid.innerHTML += `
+                    <div class="card person-card" data-name="${p.nome.toLowerCase()}">
+                        <div class="card-content">
+                            <span class="card-tag">${p.nacionalidade || 'Registro Histórico'}</span>
+                            <h3>${p.nome}</h3>
+                            <p><strong>Chegada ao Brasil:</strong> ${p.imigracao.chegadaBrasil || 'Não informada'}<br>
+                            <strong>Local:</strong> ${p.localFalecimento || p.imigracao.destinoInicial || 'Não informado'}</p>
+                            <button class="btn-card" onclick="openProfile('${p.id}')">Ver Ficha Biográfica →</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
-window.onclick = function(event) {
-    const modal = document.getElementById("profileModal");
+        // Formata link de parentes
+        function formatRelation(person) {
+            if (!person || !person.nome) return 'Não informado';
+            if (person.id && profiles[person.id]) {
+                return `<span class="clickable-person" onclick="openProfile('${person.id}')">${person.nome}</span>`;
+            }
+            return person.nome;
+        }
 
-    if(event.target === modal){
-        closeProfile();
-    }
-};
+        // Abre a Ficha Biográfica
+        function openProfile(id) {
+            const p = profiles[id];
+            if (!p) return;
 
-</script>
+            const filhosHTML = p.filhos && p.filhos.length > 0
+                ? `<ul>${p.filhos.map(f => `<li>${formatRelation(f)}</li>`).join("")}</ul>`
+                : `<p><em>Nenhum filho cadastrado.</em></p>`;
+
+            const docsHTML = p.documentos && p.documentos.length > 0
+                ? `<ul>${p.documentos.map(d => `<li>📄 ${d}</li>`).join("")}</ul>`
+                : `<p><em>Nenhum documento anexado.</em></p>`;
+
+            const galeriaHTML = p.galeria && p.galeria.length > 0
+                ? `<div class="gallery-grid">${p.galeria.map(img => `<img src="${img}" class="gallery-item" alt="Foto histórica">`).join("")}</div>`
+                : `<p><em>Nenhuma imagem disponível.</em></p>`;
+
+            document.getElementById("profileContent").innerHTML = `
+                <h2 class="profile-title">${p.nome}</h2>
+
+                <div class="section">
+                    <h3>📌 Dados Pessoais</h3>
+                    <p><strong>Data de Nascimento:</strong> ${p.nascimento || 'Não informada'}</p>
+                    <p><strong>Local de Nascimento:</strong> ${p.localNascimento || 'Não informado'}</p>
+                    <p><strong>Data de Falecimento:</strong> ${p.falecimento || 'Não informada'}</p>
+                    <p><strong>Local de Falecimento:</strong> ${p.localFalecimento || 'Não informado'}</p>
+                    <p><strong>Nacionalidade:</strong> ${p.nacionalidade || 'Não informada'}</p>
+                </div>
+
+                <div class="section">
+                    <h3>👴 Pais</h3>
+                    <p><strong>Pai:</strong> ${formatRelation(p.pai)}</p>
+                    <p><strong>Mãe:</strong> ${formatRelation(p.mae)}</p>
+                </div>
+
+                <div class="section">
+                    <h3>💍 Cônjuge</h3>
+                    <p><strong>Nome do Cônjuge:</strong> ${formatRelation(p.conjuge)}</p>
+                    <p><strong>Data do Casamento:</strong> ${p.conjuge.dataCasamento || 'Não informada'}</p>
+                    <p><strong>Local do Casamento:</strong> ${p.conjuge.localCasamento || 'Não informado'}</p>
+                </div>
+
+                <div class="section">
+                    <h3>👨‍👩‍👧‍👦 Filhos</h3>
+                    ${filhosHTML}
+                </div>
+
+                <div class="section">
+                    <h3>🚢 Imigração</h3>
+                    <p><strong>Data de Chegada ao Brasil:</strong> ${p.imigracao.chegadaBrasil || 'Não informada'}</p>
+                    <p><strong>Navio:</strong> ${p.imigracao.navio || 'Não informado'}</p>
+                    <p><strong>Porto de Desembarque:</strong> ${p.imigracao.portoDesembarque || 'Não informado'}</p>
+                    <p><strong>Destino Inicial:</strong> ${p.imigracao.destinoInicial || 'Não informado'}</p>
+                    <p><strong>Observações sobre a Viagem:</strong> ${p.imigracao.observacoes || 'Sem observações'}</p>
+                </div>
+
+                <div class="section">
+                    <h3>🪖 Serviço Militar</h3>
+                    <p><strong>Unidade Militar:</strong> ${p.servicoMilitar.unidade || 'Não informada'}</p>
+                    <p><strong>Período de Serviço:</strong> ${p.servicoMilitar.periodo || 'Não informado'}</p>
+                    <p><strong>Informações do Documento Militar:</strong> ${p.servicoMilitar.detalhes || 'Sem registros'}</p>
+                </div>
+
+                <div class="section">
+                    <h3>📖 Biografia</h3>
+                    <div class="biography-text">
+                        <p>${p.biografia || 'Biografia não cadastrada.'}</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📂 Documentos Relacionados</h3>
+                    ${docsHTML}
+                </div>
+
+                <div class="section">
+                    <h3>🖼️ Galeria de Imagens</h3>
+                    ${galeriaHTML}
+                </div>
+
+                <div class="section">
+                    <h3>📂 Recursos Extras</h3>
+                    <div class="actions-grid">
+                        <button class="btn-action" onclick="alert('Árvore familiar de ${p.nome} em desenvolvimento.')">🌳 Ver Árvore Familiar</button>
+                        <button class="btn-action" onclick="alert('Documentos históricos.')">📄 Documentos</button>
+                        <button class="btn-action" onclick="alert('Linha do tempo.')">⏳ Linha do Tempo</button>
+                        <button class="btn-action btn-close-bottom" onclick="closeProfile()">✖ Fechar Ficha</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById("profileModal").style.display = "block";
+        }
+
+        // Fecha a janela modal
+        function closeProfile() {
+            document.getElementById("profileModal").style.display = "none";
+        }
+
+        // Busca em tempo real por nome
+        function filterNames() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const cards = document.querySelectorAll(".person-card");
+
+            cards.forEach(card => {
+                const name = card.getAttribute("data-name");
+                card.style.display = name.includes(query) ? "flex" : "none";
+            });
+        }
+
+        // Fechar modal ao clicar fora dela
+        window.onclick = function(event) {
+            const modal = document.getElementById("profileModal");
+            if (event.target === modal) {
+                closeProfile();
+            }
+        };
+
+        // Inicialização
+        renderGrid();
+    </script>
 
 </body>
 </html>
